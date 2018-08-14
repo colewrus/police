@@ -43,7 +43,7 @@ namespace Fungus
 
         [Tooltip("The button which fast forwards the save history to the next save point.")]
         [SerializeField] protected Button forwardButton;
-        
+
         [Tooltip("The button which restarts the game.")]
         [SerializeField] protected Button restartButton;
 
@@ -157,7 +157,6 @@ namespace Fungus
                     debugText.text = saveManager.GetDebugInfo();
                 }
             }
-
         }
 
         protected virtual void OnEnable()
@@ -211,9 +210,7 @@ namespace Fungus
             if (saveMenuActive)
             {
                 // Switch menu off
-                LeanTween.value(saveMenuGroup.gameObject, saveMenuGroup.alpha, 0f, 0.2f)
-                    .setEase(LeanTweenType.easeOutQuint)
-                    .setOnUpdate( (t) => {
+                LeanTween.value(saveMenuGroup.gameObject, saveMenuGroup.alpha, 0f, 0.5f).setOnUpdate( (t) => { 
                     saveMenuGroup.alpha = t;
                 }).setOnComplete( () => {
                     saveMenuGroup.alpha = 0f;
@@ -222,9 +219,7 @@ namespace Fungus
             else
             {
                 // Switch menu on
-                LeanTween.value(saveMenuGroup.gameObject, saveMenuGroup.alpha, 1f, 0.2f)
-                    .setEase(LeanTweenType.easeOutQuint)
-                    .setOnUpdate( (t) => {
+                LeanTween.value(saveMenuGroup.gameObject, saveMenuGroup.alpha, 1f, 0.5f).setOnUpdate( (t) => { 
                     saveMenuGroup.alpha = t;
                 }).setOnComplete( () => {
                     saveMenuGroup.alpha = 1f;
@@ -260,7 +255,6 @@ namespace Fungus
                 PlayClickSound();
                 saveManager.Load(saveDataKey);
             }
-
         }
 
         /// <summary>
@@ -275,7 +269,6 @@ namespace Fungus
             {
                 saveManager.Rewind();
             }
-
         }
 
         /// <summary>
@@ -298,6 +291,7 @@ namespace Fungus
         public virtual void Restart()
         {
             var saveManager = FungusManager.Instance.SaveManager;
+
             if (string.IsNullOrEmpty(saveManager.StartScene))
             {
                 Debug.LogError("No start scene specified");
@@ -308,12 +302,11 @@ namespace Fungus
 
             // Reset the Save History for a new game
             saveManager.ClearHistory();
-
             if (restartDeletesSave)
             {
                 saveManager.Delete(saveDataKey);
             }
-            SaveManagerSignals.DoSaveReset();
+
             SceneManager.LoadScene(saveManager.StartScene);
         }
 
