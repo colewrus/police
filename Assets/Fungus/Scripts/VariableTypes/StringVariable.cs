@@ -25,15 +25,13 @@ namespace Fungus
 
             switch (compareOperator)
             {
-                case CompareOperator.Equals:
-                    condition = lhs == rhs;
-                    break;
-                case CompareOperator.NotEquals:
-                    condition = lhs != rhs;
-                    break;
-                default:
-                    Debug.LogError("The " + compareOperator.ToString() + " comparison operator is not valid.");
-                    break;
+            case CompareOperator.Equals:
+                condition = lhs == rhs;
+                break;
+            case CompareOperator.NotEquals:
+            default:
+                condition = lhs != rhs;
+                break;
             }
 
             return condition;
@@ -43,11 +41,9 @@ namespace Fungus
         {
             switch (setOperator)
             {
+                default:
                 case SetOperator.Assign:
                     Value = value;
-                    break;
-                default:
-                    Debug.LogError("The " + setOperator.ToString() + " set operator is not valid.");
                     break;
             }
         }

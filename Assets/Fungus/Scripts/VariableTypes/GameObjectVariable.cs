@@ -30,10 +30,8 @@ namespace Fungus
                     condition = lhs == rhs;
                     break;
                 case CompareOperator.NotEquals:
-                    condition = lhs != rhs;
-                    break;
                 default:
-                    Debug.LogError("The " + compareOperator.ToString() + " comparison operator is not valid.");
+                    condition = lhs != rhs;
                     break;
             }
 
@@ -44,11 +42,9 @@ namespace Fungus
         {
             switch (setOperator)
             {
+                default:
                 case SetOperator.Assign:
                     Value = value;
-                    break;
-                default:
-                    Debug.LogError("The " + setOperator.ToString() + " set operator is not valid.");
                     break;
             }
         }
