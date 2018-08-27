@@ -24,7 +24,10 @@ public static class ExtensionMethod
 public class notebookHandler : MonoBehaviour {
 
     public bool NotebookActive;
-    public GameObject NotebookObj;
+    public Canvas OverlayCanvas;
+    public GameObject NotebookObj;  //the UI panel of the notebook;
+    public GameObject NotebookButton; //for animation stuph
+
 
     public Flowchart notebookFlow;
 
@@ -67,7 +70,6 @@ public class notebookHandler : MonoBehaviour {
                     break;
 
                 }else{
-                    Debug.Log("not hovering?");
                     currentClueHover = false;
                     selectedClue.GetComponent<ClueDisplay>().ResetColor();
                 }
@@ -77,20 +79,40 @@ public class notebookHandler : MonoBehaviour {
 		
 	}
 
+
+    public void AddClue_Animation(){
+        NotebookButton.GetComponent<Animator>().SetTrigger("T_clueAdd");
+    }
+
+
+    //This guy should be in a more genearl game manager. But maybe this is enough
+    public void EnableOverlay(){
+        OverlayCanvas.gameObject.SetActive(true);
+        NotebookObj.SetActive(false);
+    }
+
+    public void DisableOverlay(){
+        OverlayCanvas.gameObject.SetActive(false);
+    }
+
     //opens the notebook panel
     //need to have some better way to gate the update above to lighten load
     public void NoteBookButton(){
-
+        Debug.Log("Notebook button");
         //need to setup toggle
-        NotebookActive = true;
-        NotebookObj.SetActive(true);
-        selectedClue = null;
-        //set the text on the clues
-        RefreshClues();
-        //move to the appropriate block
-        notebookFlow.ExecuteBlock("notebookActive");
-
-
+        if(!NotebookActive){
+            NotebookActive = true;
+            NotebookObj.SetActive(true);
+            selectedClue = null;
+            //set the text on the clues
+            RefreshClues();
+            //move to the appropriate block
+            //notebookFlow.ExecuteBlock("notebookActive");
+        }else{
+            NotebookActive = false;
+            NotebookObj.SetActive(false);
+            selectedClue = null;
+        }
     }
 
     public void RefreshClues(){
@@ -125,6 +147,7 @@ public class notebookHandler : MonoBehaviour {
     public void AddClue(ScriptableClue c){
         GatheredClues.Add(c);
         c.connected = false;
+     
     }
 
 }

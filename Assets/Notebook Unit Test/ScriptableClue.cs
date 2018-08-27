@@ -9,6 +9,7 @@ public class ScriptableClue : ScriptableObject {
 
 
     public string clueName;
+    public string Description;
     public bool found;
     public string clueText;
 
