@@ -7,22 +7,19 @@ using UnityEngine;
 
 public class ScriptableClue : ScriptableObject {
 
-
+    
     public string clueName;
     public string Description;
     public bool found;
     public string clueText;
 
-    public string clueBuddy; //what other clue does this partner with?
-    public ScriptableClue clueBuddy2;
+    public ScriptableClue clueBuddy;
 
+    [Tooltip("the clue that this clue spawns when combined with buddy")]
     public ScriptableClue clueSpawn; //the clue that results from combine with buddy
     public bool connected; //has this clue already found the buddy
 
-	// Use this for initialization
-	void Start () {
 
-	}
 	
 
 }

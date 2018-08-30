@@ -62,7 +62,7 @@ public class notebookHandler : MonoBehaviour {
 
                 }else if(selectedClue.GetComponent<RectTransform>().clueOverlap(clueElements[i].GetComponent<RectTransform>())){
                     //hovering
-                    if (clueElements[i].GetComponent<ClueDisplay>().myClue == selectedClue.GetComponent<ClueDisplay>().myClue.clueBuddy2){
+                    if (clueElements[i].GetComponent<ClueDisplay>().myClue == selectedClue.GetComponent<ClueDisplay>().myClue.clueBuddy){
                         currentClueHover = true;
                         selectedClue.GetComponent<ClueDisplay>().HoverHighlight();
                     }
@@ -116,15 +116,25 @@ public class notebookHandler : MonoBehaviour {
     }
 
     public void RefreshClues(){
+
+        for (int i = 0; i < clueElements.Count; i++){
+            clueElements[i].SetActive(false);
+        }
+
+
         for (int i = 0; i < GatheredClues.Count; i++)
         {
+
+            clueElements[i].SetActive(true);
             clueElements[i].GetComponent<ClueDisplay>().myClue = GatheredClues[i];
             clueElements[i].GetComponent<ClueDisplay>().InitClue();
+
         }
     }
 
     //used to click and select a clue
     public void SelectThis(GameObject target){
+        Debug.Log(target.name);
         if(selectedClue == null){
             selectedClue = target;
         }else{
@@ -134,7 +144,7 @@ public class notebookHandler : MonoBehaviour {
                 if(!selectedClue.GetComponent<ClueDisplay>().myClue.connected){
                     GatheredClues.Add(selectedClue.GetComponent<ClueDisplay>().myClue.clueSpawn);
                     selectedClue.GetComponent<ClueDisplay>().myClue.connected = true;
-                    selectedClue.GetComponent<ClueDisplay>().myClue.clueBuddy2.connected = true;
+                    selectedClue.GetComponent<ClueDisplay>().myClue.clueBuddy.connected = true;
                     RefreshClues();
                 }
                 selectedClue.GetComponent<ClueDisplay>().ResetColor();
@@ -145,9 +155,16 @@ public class notebookHandler : MonoBehaviour {
     }
 
     public void AddClue(ScriptableClue c){
-        GatheredClues.Add(c);
-        c.connected = false;
-     
+        //gotta make sure you don't get the clue a second time
+        if(!c.found){
+            GatheredClues.Add(c);
+            c.found = true;
+            c.connected = false;
+            AddClue_Animation();
+        }else{
+            return;
+        }
+
     }
 
 }
